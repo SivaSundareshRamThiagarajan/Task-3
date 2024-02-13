@@ -1,0 +1,74 @@
+// Interface Taxable
+interface Taxable {
+    double salesTax = 0.07; // 7% = (7/100)= 0.07
+    double incomeTax = 0.105; // 10.5% = (10.5/100) = 0.105
+
+    double calcTax();
+}
+
+// Class Employee implementing Taxable
+class Employee implements Taxable {
+    private int empId;
+    private String name;
+    private double salary;
+
+    // Constructor
+    public Employee(int empId, String name, double salary) {
+        this.empId = empId;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    // Method to calculate income tax on yearly salary
+    public double calcTax() {
+        return salary * Taxable.incomeTax;
+    }
+}
+
+// Class Product implementing Taxable
+class Product implements Taxable {
+    private int pid;
+    private double price;
+    private int quantity;
+
+    // Constructor
+    public Product(int pid, double price, int quantity) {
+        this.pid = pid;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Method to calculate sales tax on unit price of product
+    public double calcTax() {
+        return price * Taxable.salesTax * quantity;
+    }
+}
+
+// Main class
+public class XYZ {
+    public static void main(String[] args) {
+        // Accept employee information
+        int empId = 22;
+        String empName = "SIVA";
+        double empSalary = 1000000;
+
+        // Create Employee object
+        Employee employee = new Employee(empId, empName, empSalary);
+
+        // Calculate and print income tax
+        double incomeTax = employee.calcTax();
+        System.out.println("Income Tax for employee " + empName + ": " + incomeTax);
+
+        // Accept product information
+        int pid = 500;
+        double price = 85;
+        int quantity = 132;
+
+        // Create Product object
+        Product product = new Product(pid, price, quantity);
+
+        // Calculate and print sales tax
+        double salesTax = product.calcTax();
+        System.out.println("Sales Tax for product: " + salesTax);
+    }
+}
