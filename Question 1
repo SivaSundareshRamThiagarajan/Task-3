@@ -1,0 +1,159 @@
+package ManagementSystems;
+import java.util.Scanner;
+
+class Book {
+    // Attributes
+    private int bookID;
+    private String title;
+    private String author;
+    private boolean isAvailable;
+
+
+     // Constructor to initialize book attributes
+    public Book(int bookID, String title, String author) {
+        this.bookID = bookID;
+        this.title = title;
+        this.author = author;
+        this.isAvailable = true;
+    }
+
+    // Getter and setter for book attributes
+    public int getBookID() {
+        return bookID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    @Override
+    public String toString() {
+        return "Book[" +
+                "BookID=" + bookID +
+                ", Title=" + title +
+                ", Author=" + author +
+                ", Availability=" + isAvailable +
+                ']';
+    }
+}
+
+class Library {
+    private Book[] books;
+
+    public Library(int i) {
+        this.books = new Book[5];
+    }
+
+    // Method to add a book to the library
+    public void addBook(Book book) {
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] == null) {
+                books[i] = book;
+                return;
+            }
+        }
+        System.out.println("Library is full");
+    }
+
+    // Method to remove a book from the library
+    public void removeBook(int bookID) {
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getBookID() == bookID) {
+                books[i] = null;
+                System.out.println("Book removed successfully.");
+                return;
+            }
+        }
+        System.out.println("Book not found in the library.");
+    }
+
+    // Method to find a book by bookID
+    public Book findBookByID(int bookID) {
+        for (Book book : books) {
+            if (book != null && book.getBookID() == bookID) {
+                return book;
+            }
+        }
+        return null;
+    }
+
+    // Method to display all books in the library
+    public void displayBooks() {
+        System.out.println("Books in the library:");
+        for (Book book : books) {
+            if (book != null) {
+                System.out.println(book);
+            }
+        }
+    }
+}
+
+public class BookManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Library library = new Library(5); // Creating a library with a capacity of 5 books
+
+        // Implemented a menu-driven user interface to interact with the library system
+        while (true) {
+            System.out.println("\nLibrary System Menu:");
+            System.out.println("1. Add Book");
+            System.out.println("2. Remove Book");
+            System.out.println("3. Search Book");
+            System.out.println("4. Display Books");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            // Allowing users to add, replace, Search and display books using switch cases
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter book ID: ");
+                    int bookID = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter author: ");
+                    String author = scanner.nextLine();
+                    Book newBook = new Book(bookID, title, author);
+                    library.addBook(newBook);
+                    break;
+                case 2:
+                    System.out.print("Enter book ID to remove: ");
+                    int removeID = scanner.nextInt();
+                    library.removeBook(removeID);
+                    break;
+                case 3:
+                    System.out.print("Enter book ID to search: ");
+                    int searchID = scanner.nextInt();
+                    Book foundBook = library.findBookByID(searchID);
+                    if (foundBook != null) {
+                        System.out.println("Book found: " + foundBook);
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+                case 4:
+                    library.displayBooks();
+                    break;
+                case 5:
+                    System.out.println("Exiting program.");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+}
